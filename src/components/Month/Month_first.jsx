@@ -23,7 +23,7 @@ const MonthFirst = (props) => {
                 'credentials': 'include',
                 'content-type': 'application/json'
             },
-            baseURL: 'http://127.0.0.1:8000/api/prognosis'
+            baseURL: 'https://django-heroku-backend.herokuapp.com/api/prognosis/'
         })
         instance.get(id).then(response => {
             console.log(response);
