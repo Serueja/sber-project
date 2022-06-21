@@ -8,9 +8,12 @@ import "./App.css";
 import { TaskList } from './pages/TaskList';
 import Month_first from "./components/Month/Month_first";
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import UseHistory from 'react-router-dom';
+
 
 const initializeAssistant = (getState/*: any*/) => {
   if (process.env.NODE_ENV === "development") {
+    console.log("initAssistant");
     return createSmartappDebugger({
       token: process.env.REACT_APP_TOKEN ?? "",
       initPhrase: `Запусти ${process.env.REACT_APP_SMARTAPP}`,
@@ -35,9 +38,18 @@ export class App extends React.Component {
 
     this.assistant = initializeAssistant(() => this.getStateForAssistant() );
     this.assistant.on("data", (event/*: any*/) => {
+      if(event.type === "smart_app_data") {
+        const { smart_app_data } = event;
+        console.log(smart_app_data);
+        console.log("here i should call next console log");
+        if(smart_app_data.type === "reset") {
+          console.log("returning back on reset function");
+          //history.push("/")
+        }
+      }
       console.log(`assistant.on(data)`, event);
-      const { action } = event
-      this.dispatchAssistantAction(action);
+
+      //this.dispatchAssistantAction(action);
     });
     this.assistant.on("start", (event) => {
       console.log(`assistant.on(start)`, event);
