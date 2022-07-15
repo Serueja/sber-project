@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 const Navbar = (props) => { 
   return (
-    <div>
+    <div className='grid'>
       <div className={s.item}> 
         < NavLink to="/1" className = {s.active}><img src='./images/1new.png' /></NavLink>
       </div>

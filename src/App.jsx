@@ -9,6 +9,7 @@ import { TaskList } from './pages/TaskList';
 import Month_first from "./components/Month/Month_first";
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import UseHistory from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 
 const initializeAssistant = (getState/*: any*/) => {
@@ -25,7 +26,7 @@ const initializeAssistant = (getState/*: any*/) => {
 
 
 
-export class App extends React.Component {
+class App_ extends React.Component {
 
   
   constructor(props) {
@@ -44,7 +45,11 @@ export class App extends React.Component {
         console.log("here i should call next console log");
         if(smart_app_data.type === "reset") {
           console.log("returning back on reset function");
-          //history.push("/")
+          this.props.navigate("/")
+        }
+        if(smart_app_data.type==="routing"){
+          console.log("routing function is called")
+          this.props.navigate(`/${smart_app_data.id}`)
         }
       }
       console.log(`assistant.on(data)`, event);
@@ -133,7 +138,6 @@ export class App extends React.Component {
     console.log('render');
     return (
       <>
-      <BrowserRouter>
                 <Routes>
                 <Route exact path="/"
                         element={< TaskList
@@ -145,8 +149,7 @@ export class App extends React.Component {
                     <Route  path="/:id"
                         element={<Month_first />} />      
                 </Routes>
-    </BrowserRouter>
-     
+
       </>
     )
   }
@@ -154,3 +157,6 @@ export class App extends React.Component {
 
 }
 
+export const App = (props) => (
+  <App_ navigate={useNavigate()} />
+);
