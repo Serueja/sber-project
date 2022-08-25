@@ -10,6 +10,7 @@
 
 .item {
     display: inline;
+    padding:6px;
 }
 
 .item a {
@@ -22,14 +23,14 @@
     margin-right: auto;
 }
 
-.item a:hover {
+/* .item a:hover {
     border-radius: 10px;
     color: #37d71e;
     background: white;
     border-bottom: 2px solid #37d71e;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
     
-}
+} */
 
 .item.active {
     color: black;

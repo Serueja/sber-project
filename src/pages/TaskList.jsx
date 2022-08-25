@@ -1,5 +1,4 @@
 import React from 'react';
-import {AddTask} from '../components/AddTask';
 import {TaskItemList} from '../components/TaskItemList';
 import Header from '../components/Header/Header';
 import Navbar from '../components/Navbar/Navbar';
@@ -7,14 +6,10 @@ import Navbar from '../components/Navbar/Navbar';
 
 export const TaskList = (props) => {
   const { items, onAdd, onDone } = props;
+  console.log('Navbar joy:', props.joy)
   return (
     <main className="container">
-      <AddTask
-        onAdd = { onAdd }
-      />
       <TaskItemList
-        items  = { items }
-        onDone = { onDone }
       />
       <Header/>
 

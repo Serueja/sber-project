@@ -7,9 +7,6 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const MonthFirst = (props) => {
-    //const { url } = useRouteMatch();
-    //const idArr = url.split('/');
-    //const id= idArr[idArr.length - 1];
     let { id } = useParams();
     console.log('id:', id)
     const [data, setData] = useState({
@@ -18,9 +15,9 @@ const MonthFirst = (props) => {
     })
     useEffect(() => {
         const instance = axios.create({
-            withCredentials: true,
+            //withCredentials: true,
             headers: {
-                'credentials': 'include',
+                //'credentials': 'include',
                 'content-type': 'application/json'
             },
             baseURL: 'https://django-heroku-backend.herokuapp.com/api/prognosis/'
@@ -32,9 +29,10 @@ const MonthFirst = (props) => {
 
     },
         []);
+
     return (
         <div className='app-wrapper' >
-            <h1 className='Zodiac'>Прогноз для {data.zodiac_sign}</h1>
+            <h1 className='Zodiac'>{data.zodiac_sign}</h1>
             <div className='Prognosis_text'>
                 {data.prognosis_text}
             </div>

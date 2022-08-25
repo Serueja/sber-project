@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import {
   createSmartappDebugger,
   createAssistant,
@@ -10,6 +11,7 @@ import Month_first from "./components/Month/Month_first";
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import UseHistory from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
+import { useState } from "react";
 
 
 const initializeAssistant = (getState/*: any*/) => {
@@ -21,6 +23,7 @@ const initializeAssistant = (getState/*: any*/) => {
       getState,
     });
   }
+  axios.get("https://django-heroku-backend.herokuapp.com/api/prognosis/1")
   return createAssistant({ getState });
 };
 
@@ -28,13 +31,13 @@ const initializeAssistant = (getState/*: any*/) => {
 
 class App_ extends React.Component {
 
-  
   constructor(props) {
     super(props);
     console.log('constructor');
 
     this.state = {
       notes: [],
+      joy:false
     }
 
     this.assistant = initializeAssistant(() => this.getStateForAssistant() );
@@ -48,6 +51,7 @@ class App_ extends React.Component {
           this.props.navigate("/")
         }
         if(smart_app_data.type==="routing"){
+          this.props.navigate("/")
           console.log("routing function is called")
           this.props.navigate(`/${smart_app_data.id}`)
         }
@@ -83,57 +87,6 @@ class App_ extends React.Component {
     return state;
   }
 
-  dispatchAssistantAction (action) {
-    console.log('dispatchAssistantAction', action);
-    if (action) {
-      switch (action.type) {
-        case 'add_note':
-          return this.add_note(action);
-
-        case 'done_note':
-          return this.done_note(action);
-
-        case 'delete_note':
-          return this.delete_note(action);
-
-        default:
-          throw new Error();
-      }
-    }
-  }
-
-  add_note (action) {
-    console.log('add_note', action);
-    this.setState({
-      notes: [
-        ...this.state.notes,
-        {
-          id:        Math.random().toString(36).substring(7),
-          title:     action.note,
-          completed: false,
-        },
-      ],
-    })
-  }
-
-  done_note (action) {
-    console.log('done_note', action);
-    this.setState({
-      notes: this.state.notes.map((note) =>
-        (note.id === action.id)
-        ? { ...note, completed: !note.completed }
-        : note
-      ),
-    })
-  }
-
-  delete_note (action) {
-    console.log('delete_note', action);
-    this.setState({
-      notes: this.state.notes.filter(({ id }) => id !== action.id),
-    })
-  }
-
   render() {
     console.log('render');
     return (
@@ -141,9 +94,6 @@ class App_ extends React.Component {
                 <Routes>
                 <Route exact path="/"
                         element={< TaskList
-                          items  = {this.state.notes}
-                          onAdd  = {(note) => { this.add_note({ type: "add_note", note }); }}
-                          onDone = {(note) => { this.done_note({ type: "done_note", id: note.id }) }}
                         /> } />
 
                     <Route  path="/:id"
